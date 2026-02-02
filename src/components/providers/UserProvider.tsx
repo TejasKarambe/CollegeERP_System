@@ -11,13 +11,12 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["me"],
     queryFn: getMe,
     retry: false,
   });
 
-  if (isLoading) return null; // or loader
   if (isError || !data) {
     window.location.href = "/login";
     return null;

@@ -1,6 +1,8 @@
-// src/lib/auth.ts
-import { cookies } from "next/headers";
+import { useUser } from "@/components/providers/UserProvider";
 
-export async function isAuthenticated() {
-  return (await cookies()).has("access_token");
-}
+export const useRequireRole = (role: "Staff" | "Student") => {
+  const { user } = useUser();
+  if (user.role !== role) {
+    window.location.href = "/secured/forbidden";
+  }
+};

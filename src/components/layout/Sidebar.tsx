@@ -9,11 +9,18 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { MENU_CONFIG } from "../navigation/menu.config";
+import { filterMenusByPermission } from "../navigation/permission.utils";
+import { useUser } from "../providers/UserProvider";
 
 const drawerWidth = 240;
 
 export default function Sidebar({ role }: { role: "Staff" | "Student" }) {
-  const menus = MENU_CONFIG[role];
+  const { user } = useUser();
+
+  const menus = filterMenusByPermission(
+    MENU_CONFIG[role],
+    user.permissions
+  );
 
   return (
     <Drawer
